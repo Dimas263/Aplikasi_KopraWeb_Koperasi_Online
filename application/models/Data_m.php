@@ -30,7 +30,6 @@ class Data_m extends CI_Model{
 		$config['allowed_types'] = 'jpeg|jpg|png|pdf';
 		$config['max_size'] = 2048;
 
-
 		$this->load->library('upload', $config);
 
 		if (!$this->upload->do_upload('example-file-input-wajah'))
