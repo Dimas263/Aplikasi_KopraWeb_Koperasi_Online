@@ -107,6 +107,17 @@ class Source extends CI_Controller{
 		$this->load->view('pinjaman/home');
 		$this->load->view('footer');
 	}
+	public function newpinjaman(){
+		check_not_login();
+		$this->Data_m->addpinjaman();
+		redirect(base_url('source/pinjaman'));
+	}
+	public function pinjamanku(){
+		check_not_login();
+		$this->load->view('header');
+		$this->load->view('pinjaman/admin-home');
+		$this->load->view('footer');
+	}
 	public function pasar(){
 		check_not_login();
 		$this->load->view('header');
@@ -117,6 +128,44 @@ class Source extends CI_Controller{
 		check_not_login();
 		$this->load->view('header');
 		$this->load->view('tagihan/home');
+		$this->load->view('footer');
+	}
+	public function barangku(){
+		check_not_login();
+		$this->load->view('header');
+		$this->load->view('pasar/admin-home');
+		$this->load->view('footer');
+	}
+	public function newbarang(){
+		check_not_login();
+		$this->Data_m->addproduct();
+		redirect(base_url('source/barangku'));
+	}
+	public function deletebarang(){
+		check_not_login();
+		$id = $_GET['id'];
+
+		$this->db->select('foto')->from('koperasi_product')->where('id_product',$id);
+		$gambar = $this->db->get();
+		if ($gambar->num_rows() > 0) {
+			$valgambar = $gambar->row()->gambar;
+		}
+
+		$this->db->select('id_user')->from('koperasi_product')->where('id_product',$id);
+		$user_id = $this->db->get();
+		if ($user_id->num_rows() > 0) {
+			$user_id = $user_id->row()->user_id;
+		}
+		$locfile = base_url('upload/product/'.$user_id.'/'.$valgambar);
+
+		unlink($locfile);
+		$this->Data_m->deleteproduct($id);
+		redirect(base_url('source/barangku'));
+	}
+	public function tabunganku(){
+		check_not_login();
+		$this->load->view('header');
+		$this->load->view('tabungan/admin-home');
 		$this->load->view('footer');
 	}
 }

@@ -117,10 +117,10 @@
 					<div class="block-content block-content-full">
 						<div class="media">
 							<div class="col-12">
-								<a class="block block-rounded block-link-rotate bg-gray-light text-center" href="<?=base_url('Source/pinjaman')?>">
+								<a class="block block-rounded bg-gray-light text-center" href="<?=base_url('Source/pinjaman')?>">
 									<div class="block-content">
 										<p class="font-size-h4 font-w600">
-											Ajukan Peminjaman &nbsp;&nbsp;&nbsp;<img class="animated shake" src="https://img.icons8.com/ios-filled/50/228BE6/arrow.png"/>
+											Ajukan Peminjaman &nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ios-filled/50/228BE6/arrow.png"/>
 										</p>
 									</div>
 								</a>
@@ -189,7 +189,7 @@
 					<div class="block-content block-content-full">
 						<div class="media">
 							<div class="col-6">
-								<a class="block block-rounded block-link-rotate  bg-gray-light text-center" href="<?=base_url()?>">
+								<a class="block block-rounded block-link-rotate  bg-gray-light text-center" href="<?=base_url('source/tabunganku')?>">
 									<div class="block-content">
 										<p class="font-size-h5 font-w600">
 											<img src="https://img.icons8.com/external-chloe-kerismaker/24/000000/external-Savings-banking-chloe-kerismaker.png"/> Tabunganku
@@ -198,7 +198,7 @@
 								</a>
 							</div>
 							<div class="col-6">
-								<a class="block block-rounded block-link-rotate  bg-gray-light  text-center" href="<?=base_url()?>">
+								<a class="block block-rounded block-link-rotate  bg-gray-light  text-center" href="<?=base_url('source/pinjamanku')?>">
 									<div class="block-content">
 										<p class="font-size-h5 font-w600">
 											<img src="https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/24/000000/external-loan-due-diligence-icongeek26-linear-colour-icongeek26.png"/> Pinjamanku
@@ -209,7 +209,7 @@
 						</div>
 						<div class="media">
 							<div class="col-6">
-								<a class="block block-rounded block-link-rotate  bg-gray-light  text-center" href="<?=base_url()?>">
+								<a class="block block-rounded block-link-rotate  bg-gray-light  text-center" href="<?=base_url('source/barangku')?>">
 									<div class="block-content">
 										<p class="font-size-h5 font-w600">
 											<img src="https://img.icons8.com/color/24/000000/product--v1.png"/> Barangku
@@ -295,7 +295,7 @@
 							<?php
 							$this->db->select('*');
 							$this->db->from('koperasi_wilayah');
-							$this->db->where('LENGTH(kode)', 8); # Provinsi 2, Kota 5, Kecamatan 8, Keluarahn 13
+							$this->db->where('LENGTH(kode)', 13); # Provinsi 2, Kota 5, Kecamatan 8, Kelurahan 13
 							$this->db->where('LEFT(kode, 2)=', '31');
 							$this->db->order_by('RAND()');
 							$this->db->limit(6);
@@ -334,7 +334,7 @@
 <?php
 $this->db->select('*');
 $this->db->from('koperasi_wilayah');
-$this->db->where('LENGTH(kode)', 8); # Provinsi 2, Kota 5, Kecamatan 8, Keluarahn 13
+$this->db->where('LENGTH(kode)', 13); # Provinsi 2, Kota 5, Kecamatan 8, Kelurahan 13
 $this->db->where('LEFT(kode, 2)=', '31');
 $this->db->order_by('RAND()');
 $wilayah = $this->db->get()->result_array();

@@ -1,3 +1,11 @@
+create table koperasi_forum
+(
+    id_forum varchar(100) default (uuid()) not null
+        primary key,
+    id_user  varchar(100)                  null,
+    forum    varchar(100)                  null
+);
+
 INSERT INTO koperasi.koperasi_forum (id_forum, id_user, forum) VALUES ('0556e04b-0b77-11ed-acb7-f430b99f2825', '0d8334c5-0736-11ed-a307-f430b99f2825', 'Kembangan');
 INSERT INTO koperasi.koperasi_forum (id_forum, id_user, forum) VALUES ('0aba85cb-0b73-11ed-acb7-f430b99f2825', '0d8334c5-0736-11ed-a307-f430b99f2825', 'Matraman');
 INSERT INTO koperasi.koperasi_forum (id_forum, id_user, forum) VALUES ('2B5C8A61-64E2-4173-9D1E-AAC3A15CC626', 'bd6d6281-fa35-11ec-b491-f430b99f2825', 'Kemayoran');

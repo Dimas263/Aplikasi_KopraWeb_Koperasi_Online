@@ -97,7 +97,7 @@
 	<!-- Page Content -->
 	<div class="content">
 		<!-- Progress Wizards -->
-		<h2 class="content-heading">Progress Wizards</h2>
+		<h2 class="content-heading">Ajukan Peminjaman</h2>
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Progress Wizard -->
@@ -105,19 +105,20 @@
 					<!-- Step Tabs -->
 					<ul class="nav nav-tabs nav-tabs-block nav-fill" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" href="#wizard-progress-step1" data-toggle="tab">1. Personal</a>
+							<a class="nav-link active" href="#wizard-progress-step1" data-toggle="tab">1. Info Koperasi dan Usaha</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#wizard-progress-step2" data-toggle="tab">2. Details</a>
+							<a class="nav-link" href="#wizard-progress-step2" data-toggle="tab">2. Info dan Periode Peminjaman</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#wizard-progress-step3" data-toggle="tab">3. Extra</a>
+							<a class="nav-link" href="#wizard-progress-step3" data-toggle="tab">3. Upload Persyaratan</a>
 						</li>
 					</ul>
 					<!-- END Step Tabs -->
 
 					<!-- Form -->
-					<form action="be_forms_wizard.html" method="post">
+					<!-- <form action="" method="post"> -->
+					<?php echo form_open_multipart('source/newpinjaman');?>
 						<!-- Wizard Progress Bar -->
 						<div class="block-content block-content-sm">
 							<div class="progress" data-wizard="progress" style="height: 8px;">
@@ -131,16 +132,43 @@
 							<!-- Step 1 -->
 							<div class="tab-pane active" id="wizard-progress-step1" role="tabpanel">
 								<div class="form-group">
-									<label for="wizard-progress-firstname">First Name</label>
-									<input class="form-control" type="text" id="wizard-progress-firstname" name="wizard-progress-firstname">
+									<label for="wizard-progress-info-koperasi">Koperasi</label>
+									<input type="hidden" name="username" value="<?=$this->auth_libs->user_login()->username?>">
+									<select class="js-select2 form-control" id="wizard-progress-info-koperasi" name="wizard-progress-info-koperasi" size="1">
+										<option value="">Kantor Koperasi</option>
+										<?php
+										$this->db->select('*');
+										$this->db->from('koperasi_wilayah');
+										$this->db->where('LENGTH(kode)', 13); # Provinsi 2, Kota 5, Kecamatan 8, Kelurahan 13
+										$this->db->where('LEFT(kode, 2)=', '31'); # Jakarta 31
+										$this->db->order_by('nama', 'asc');
+										$wilayah = $this->db->get()->result_array();
+										foreach ($wilayah as $detail_wilayah):
+											?>
+											<option value="<?=$detail_wilayah['nama']?>"><?=$detail_wilayah['nama']?></option>
+										<?php endforeach?>
+									</select>
 								</div>
 								<div class="form-group">
-									<label for="wizard-progress-lastname">Last Name</label>
-									<input class="form-control" type="text" id="wizard-progress-lastname" name="wizard-progress-lastname">
+									<label for="wizard-progress-info-usaha">Info Usaha</label>
+									<input class="form-control" type="text" id="wizard-progress-info-usaha" name="wizard-progress-info-usaha">
 								</div>
 								<div class="form-group">
-									<label for="wizard-progress-email">Email</label>
-									<input class="form-control" type="email" id="wizard-progress-email" name="wizard-progress-email">
+									<label for="wizard-progress-jenis-usaha">Jenis Usaha</label>
+									<input class="form-control" type="text" id="wizard-progress-jenis-usaha" name="wizard-progress-jenis-usaha">
+								</div>
+								<div class="form-group">
+									<label for="wizard-progress-pendapatan-bulanan">Pendapatan Bulanan</label>
+									<select class="form-control" id="wizard-progress-pendapatan-bulanan" name="wizard-progress-pendapatan-bulanan">
+										<option value="">Pilih pendapatan bulanan</option>
+										<option value="0-500">kurang dari Rp. 500.000,00</option>
+										<option value="5-1jt">Rp. 500.000,00 - Rp. 1.000.000,00</option>
+										<option value="1-2jt">Rp. 1.000.000,00 - Rp. 2.000.000,00</option>
+										<option value="2-3jt">Rp. 2.000.000,00 - Rp. 3.000.000,00</option>
+										<option value="3-4jt">Rp. 3.000.000,00 - Rp. 4.000.000,00</option>
+										<option value="4-5jt">Rp. 4.000.000,00 - Rp. 5.000.000,00</option>
+										<option value="5+jt">Lebih dari Rp. 5.000.000,00</option>
+									</select>
 								</div>
 							</div>
 							<!-- END Step 1 -->
@@ -148,27 +176,99 @@
 							<!-- Step 2 -->
 							<div class="tab-pane" id="wizard-progress-step2" role="tabpanel">
 								<div class="form-group">
-									<label for="wizard-progress-bio">Bio</label>
-									<textarea class="form-control" id="wizard-progress-bio" name="wizard-progress-bio" rows="9"></textarea>
+									<label for="wizard-progress-dana-peminjaman">Jumlah Dana Peminjaman</label>
+									<input class="form-control" type="number" id="wizard-progress-dana-peminjaman" name="wizard-progress-dana-peminjaman">
+								</div>
+								<div class="form-group">
+									<label for="wizard-progress-bio">Metode Pembayaran</label>
+									<div class="col-6">
+										<label class="css-control css-control-primary css-radio">
+											<input type="radio" class="css-control-input" name="radio-group2" value="30" checked>
+											<span class="css-control-indicator"></span> Bayar Dalam 30 Hari
+										</label>
+										<br>
+										<label class="css-control css-control-primary css-radio">
+											<input type="radio" class="css-control-input" name="radio-group2" value="90">
+											<span class="css-control-indicator"></span> Bayar Dalam 3 Bulan
+										</label>
+										<br>
+										<label class="css-control css-control-primary css-radio">
+											<input type="radio" class="css-control-input" name="radio-group2" value="180">
+											<span class="css-control-indicator"></span> Bayar Dalam 6 Bulan
+										</label>
+										<br>
+										<label class="css-control css-control-primary css-radio">
+											<input type="radio" class="css-control-input" name="radio-group2" value="360">
+											<span class="css-control-indicator"></span> Bayar Dalam 12 Bulan
+										</label>
+									</div>
 								</div>
 							</div>
 							<!-- END Step 2 -->
 
 							<!-- Step 3 -->
 							<div class="tab-pane" id="wizard-progress-step3" role="tabpanel">
+								<span class="text-danger">jpeg, jpg, png, atau pdf maks 2mb</span>
+								<br><br>
 								<div class="form-group">
-									<label for="wizard-progress-location">Location</label>
-									<input class="form-control" type="text" id="wizard-progress-location" name="wizard-progress-location">
+									<label class="col-12" for="example-file-input-wajah">Foto Wajah</label>
+									<div class="col-12">
+										<img src="#" id="wajahIMG">
+										<input type="file" id="example-file-input-wajah" name="example-file-input-wajah" onchange="wajahURL(this);">
+										<script type="text/javascript">
+											function wajahURL(input) {
+												if (input.files && input.files[0]) {
+													var reader = new FileReader();
+
+													reader.onload = function (e) {
+														$('#wajahIMG').attr('src', e.target.result);
+													}
+
+													reader.readAsDataURL(input.files[0]);
+												}
+											}
+										</script>
+									</div>
 								</div>
 								<div class="form-group">
-									<label for="wizard-progress-skills">Skills</label>
-									<select class="form-control" id="wizard-progress-skills" name="wizard-progress-skills" size="1">
-										<option value="">Please select your best skill</option>
-										<option value="1">Photoshop</option>
-										<option value="2">HTML</option>
-										<option value="3">CSS</option>
-										<option value="4">JavaScript</option>
-									</select>
+									<label class="col-12" for="example-file-input-ktp">Foto KTP</label>
+									<div class="col-12">
+										<img src="#" id="KTPIMG">
+										<input type="file" id="example-file-input-ktp" name="example-file-input-ktp" onchange="KTPURL(this);">
+										<script type="text/javascript">
+											function KTPURL(input) {
+												if (input.files && input.files[0]) {
+													var reader = new FileReader();
+
+													reader.onload = function (e) {
+														$('#KTPIMG').attr('src', e.target.result);
+													}
+
+													reader.readAsDataURL(input.files[0]);
+												}
+											}
+										</script>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-12" for="example-file-input-kk">Foto Kartu Keluarga</label>
+									<div class="col-12">
+										<img src="#" id="KKIMG">
+										<input type="file" id="example-file-input-kk" name="example-file-input-kk" onchange="KKURL(this);">
+										<script type="text/javascript">
+											function KKURL(input) {
+												if (input.files && input.files[0]) {
+													var reader = new FileReader();
+
+													reader.onload = function (e) {
+														$('#KKIMG').attr('src', e.target.result);
+													}
+
+													reader.readAsDataURL(input.files[0]);
+												}
+											}
+										</script>
+									</div>
 								</div>
 								<div class="form-group">
 									<label class="css-control css-control-primary css-switch" for="wizard-progress-terms">

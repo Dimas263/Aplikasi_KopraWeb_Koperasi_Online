@@ -5,6 +5,7 @@ create table koperasi_forum
 	id_user  varchar(100)                  null,
 	forum    varchar(100)                  null
 );
+
 create table koperasi_message
 (
 	id_message int auto_increment,
@@ -30,6 +31,7 @@ create table koperasi_pinjaman
 	foto_wajah          varchar(1000)                 null,
 	foto_ktp            varchar(1000)                 null,
 	foto_kartu_keluarga varchar(1000)                 null,
+	tanggal             datetime     default CURRENT_TIMESTAMP null,
 	username            varchar(100)                  null
 );
 
